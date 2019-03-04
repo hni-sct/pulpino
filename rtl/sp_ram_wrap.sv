@@ -46,28 +46,17 @@ module sp_ram_wrap
   // have here
 
 `elsif ASIC
-   // RAM bypass logic
-   logic [31:0] ram_out_int;
-   // assign rdata_o = (bypass_en_i) ? wdata_i : ram_out_int;
-   assign rdata_o = ram_out_int;
-
-   sp_ram_bank
-   #(
-    .NUM_BANKS  ( RAM_SIZE/4096 ),
-    .BANK_SIZE  ( 1024          )
-   )
-   sp_ram_bank_i
+   TS1N65LPLL8192X32M16 sram_ip
    (
-    .clk_i   ( clk                     ),
-    .rstn_i  ( rstn_i                  ),
-    .en_i    ( en_i                    ),
-    .addr_i  ( addr_i                  ),
-    .wdata_i ( wdata_i                 ),
-    .rdata_o ( ram_out_int             ),
-    .we_i    ( (we_i & ~bypass_en_i)   ),
-    .be_i    ( be_i                    )
-   );
-
+     .CLK(clk),
+     .CEB(en_i),
+     .WEB(we_i),
+     .A(addr_i[ADDR_WIDTH-1:2]),
+     .D(wdata_i),
+     .BWEB(32'hffffffff),
+     .Q(rdata_o),
+     .TSEL(2'b01)
+    );
 `else
   sp_ram
   #(
