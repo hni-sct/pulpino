@@ -16,6 +16,7 @@ set cmd "vsim -quiet $TB \
   $VSIM_FLAGS"
 
 # set cmd "$cmd -sv_lib ./work/libri5cyv2sim"
+puts $cmd
 eval $cmd
 
 # check exit status in tb and quit the simulation accordingly

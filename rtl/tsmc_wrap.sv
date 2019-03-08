@@ -17,7 +17,7 @@ module tsmc65_wrap
 //    input  logic              clk_sel_i,
 //    input  logic              clk_standalone_i,
 //    input  logic              testmode_i,
-//    input  logic              fetch_enable_i,
+    inout  logic              fetch_enable_i,
 //    input  logic              scan_enable_i,
 
     //SPI Slave
@@ -64,7 +64,7 @@ module tsmc65_wrap
     inout  logic              uart_cts,
     inout  logic              uart_dsr,
 
-    inout logic          [8:0] gpio,
+    inout logic          [10:0] gpio,
 //    input  logic       [31:0] gpio_in,
 //    output logic       [31:0] gpio_out,
 //    output logic       [31:0] gpio_dir,
@@ -144,14 +144,14 @@ module tsmc65_wrap
   #(
     .USE_ZERO_RISCY(1),
     .RISCY_RV32F(0),
-    .ZERO_RV32M(1),
-    .ZERO_RV32E(0)
-   ) top_inst (
+    .ZERO_RV32M(0),
+    .ZERO_RV32E(1)
+   ) top_i (
     .clk(net_clk),
     .rst_n(net_rst_n),
-    .clk_sel_i(net_clk_sel_i),
+    .clk_sel_i(1'b0),
     .clk_standalone_i(net_clk_standalone_i),
-    .testmode_i(net_testmode_i),
+    .testmode_i(1'b0),
     .fetch_enable_i(net_fetch_enable_i),
     .scan_enable_i(net_scan_enable_i),
     .spi_clk_i(net_spi_clk_i),
@@ -220,6 +220,17 @@ module tsmc65_wrap
     .PE(1'b0),
     .IE(1'b1)
   );
+
+  PDDW0204CDG pad_fetch_en_0 (
+    .I(),
+    .DS(1'b0),
+    .OEN(1'b1),
+    .PAD(fetch_enable_i),
+    .C(net_fetch_enable_i),
+    .PE(1'b0),
+    .IE(1'b1)
+  );
+
 
   PDDW0204CDG pad_spi_clk_i_0 (
     .I(),
@@ -496,13 +507,33 @@ module tsmc65_wrap
   );
 
   PDDW0204CDG pad_gpio_8(
-    .I(net_gpio_in[8]),
+    .I(net_gpio_out[8]),
     .DS(1'b0),
-    .OEN(net_gpio_dir[8]),
+    .OEN(~net_gpio_dir[8]),
     .PAD(gpio[8]),
-    .C(net_gpio_out[8]),
+    .C(net_gpio_in[8]),
     .PE(net_gpio_padcfg[8][0]),
     .IE(~net_gpio_dir[8])
+  );
+
+  PDDW0204CDG pad_gpio_9(
+    .I(net_gpio_in[9]),
+    .DS(1'b0),
+    .OEN(net_gpio_dir[9]),
+    .PAD(gpio[9]),
+    .C(net_gpio_out[9]),
+    .PE(net_gpio_padcfg[9][0]),
+    .IE(~net_gpio_dir[9])
+  );
+
+  PDDW0204CDG pad_gpio_10(
+    .I(net_gpio_in[10]),
+    .DS(1'b0),
+    .OEN(net_gpio_dir[10]),
+    .PAD(gpio[10]),
+    .C(net_gpio_out[10]),
+    .PE(net_gpio_padcfg[10][0]),
+    .IE(~net_gpio_dir[10])
   );
 
 endmodule

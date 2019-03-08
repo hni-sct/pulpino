@@ -26,11 +26,11 @@
     begin
       $display("Preloading memory");
 
-      instr_size   = tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.RAM_SIZE;
-      instr_width = tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.DATA_WIDTH;
+      instr_size   = tb_wrap.top_i.top_i.core_region_i.instr_mem.sp_ram_wrap_i.RAM_SIZE;
+      instr_width = tb_wrap.top_i.top_i.core_region_i.instr_mem.sp_ram_wrap_i.DATA_WIDTH;
 
-      data_size   = tb.top_i.core_region_i.data_mem.RAM_SIZE;
-      data_width = tb.top_i.core_region_i.data_mem.DATA_WIDTH;
+      data_size   = tb_wrap.top_i.top_i.core_region_i.data_mem.RAM_SIZE;
+      data_width = tb_wrap.top_i.top_i.core_region_i.data_mem.DATA_WIDTH;
 
       instr_mem = new [instr_size/4];
       data_mem  = new [data_size/4];
@@ -56,13 +56,13 @@
           data = data_mem[addr];
 
           if (bidx%4 == 0)
-            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[ 7: 0];
+            tb_wrap.top_i.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[ 7: 0];
           else if (bidx%4 == 1)
-            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[15: 8];
+            tb_wrap.top_i.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[15: 8];
           else if (bidx%4 == 2)
-            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[23:16];
+            tb_wrap.top_i.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[23:16];
           else if (bidx%4 == 3)
-            tb.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[31:24];
+            tb_wrap.top_i.top_i.core_region_i.data_mem.sp_ram_i.mem[mem_addr][bidx] = data[31:24];
 
           if (bidx%4 == 3) addr++;
         end
@@ -76,13 +76,13 @@
           data = instr_mem[addr];
 
           if (bidx%4 == 0)
-            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[ 7: 0];
+            tb_wrap.top_i.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[ 7: 0];
           else if (bidx%4 == 1)
-            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[15: 8];
+            tb_wrap.top_i.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[15: 8];
           else if (bidx%4 == 2)
-            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[23:16];
+            tb_wrap.top_i.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[23:16];
           else if (bidx%4 == 3)
-            tb.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[31:24];
+            tb_wrap.top_i.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sp_ram_i.mem[mem_addr][bidx] = data[31:24];
 
           if (bidx%4 == 3) addr++;
         end
