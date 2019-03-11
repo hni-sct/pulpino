@@ -2,7 +2,7 @@
 # \
 exec vsim -64 -do "$0"
 
-set TB            tb
+set TB            tb_wrap
 set VSIM_FLAGS    "-gTEST=\"MEM_DPI\""
 set MEMLOAD       "PRELOAD"
 
