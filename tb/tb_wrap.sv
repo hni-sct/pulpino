@@ -12,7 +12,7 @@
 `include "tb_jtag_pkg.sv"
 
 `define REF_CLK_PERIOD   (2*15.25us)  // 32.786 kHz --> FLL reset value --> 50 MHz
-`define CLK_PERIOD       10.00ns      // 25 MHz
+`define CLK_PERIOD       40.00ns      // 25 MHz
 
 `define EXIT_SUCCESS  0
 `define EXIT_FAIL     1
@@ -59,7 +59,7 @@ module tb_wrap;
   logic [1:0]   spi_mode;
 
   logic         spi_sdo0;
-  logic         spi_sdo0_en   = 1'b0;
+  logic         spi_sdo0_en   = 1'b1;
   wire          spi_sdo0_wire = (spi_sdo0_en == 1) ? spi_sdo0 : 1'bz;
 
   logic         spi_sdo1;
@@ -67,20 +67,19 @@ module tb_wrap;
   logic         spi_sdo3;
 
   logic         spi_sdi0;
-  logic         spi_sdi0_en   = 1'b1;
+  logic         spi_sdi0_en   = 1'b0;
   wire          spi_sdi0_wire = (spi_sdi0_en == 1) ? spi_sdi0 : 1'bz;
 
   logic         spi_sdi1;
   logic         spi_sdi2;
   logic         spi_sdi3;
 
-  logic         uart_tx;
-  logic         uart_tx_en   = 1'b0;
-  wire          uart_tx_wire = (uart_tx_en == 1) ? uart_tx : 1'bz;
+  wire          uart_tx_wire;
+  wire          uart_rx_wire;
 
-  logic         uart_rx;
-  logic         uart_rx_en   = 1'b1;
-  wire          uart_rx_wire = (uart_rx_en == 1) ? uart_rx : 1'bz;
+//  logic         uart_rx;
+//  logic         uart_rx_en   = 1'b0;
+//  wire          uart_rx_wire = (uart_rx_en == 1) ? uart_rx : 1'bz;
 
   logic         s_uart_dtr;
   logic         s_uart_dtr_en   = 1'b0;
@@ -127,7 +126,7 @@ module tb_wrap;
   logic jtag_tdi_en = 1'b1;
   wire  jtag_tdi_wire = (jtag_tdi_en == 1) ? jtag_if.tdi : 1'bz;
   logic jtag_tdo_en = 1'b0;
-  wire  jtag_tdo_wire = (jtag_tdi_en == 1) ? jtag_if.tdo : 1'bz;
+  wire  jtag_tdo_wire = (jtag_tdo_en == 1) ? jtag_if.tdo : 1'bz;
 
 
   adv_dbg_if_t adv_dbg_if = new(jtag_if);
@@ -140,8 +139,8 @@ module tb_wrap;
   )
   uart
   (
-    .rx         ( uart_rx ),
-    .tx         ( uart_tx ),
+    .rx         ( uart_rx_wire ),
+    .tx         ( uart_tx_wire ),
     .rx_en      ( 1'b1    )
   );
 
@@ -152,6 +151,10 @@ module tb_wrap;
   wire  spi_master_clk_wire = (spi_master_clk_en == 1) ? spi_master.clk : 1'bz;
   logic spi_master_csn_en = 1'b0;
   wire  spi_master_csn_wire = (spi_master_csn_en == 1) ? spi_master.csn : 1'bz;
+  logic spi_master_sdo_en = 1'b0;
+  wire  spi_master_sdo_wire = (spi_master_sdo_en == 1) ? spi_master.sdo[0] : 1'bz;
+  logic spi_master_sdi_en = 1'b1;
+  wire  spi_master_sdi_wire = (spi_master_sdi_en == 1) ? spi_master.sdi[0] : 1'bz;
 
 
 
@@ -193,8 +196,8 @@ module tb_wrap;
 
     .spi_master_clk_o  ( spi_master_clk_wire     ),
     .spi_master_csn0_o ( spi_master_csn_wire     ),
-    .spi_master_sdo0_o ( spi_master.sdo[0]  ),
-    .spi_master_sdi0_i ( spi_master.sdi[0]  ),
+    .spi_master_sdo0_o ( spi_master_sdo_wire  ),
+    .spi_master_sdi0_i ( spi_master_sdi_wire  ),
 
     .uart_tx           ( uart_rx_wire      ),
     .uart_rx           ( uart_tx_wire      ),
@@ -204,9 +207,6 @@ module tb_wrap;
     .uart_dsr          ( s_uart_dsr_wire   ),
 
     .gpio              ( gpio_bi      ),
-//    .gpio_out          ( gpio_out     ),
-//    .gpio_dir          ( gpio_dir     ),
-//    .gpio_padcfg       (              ),
 
     .tck_i             ( jtag_tck_wire    ),
     .trstn_i           ( jtag_trstn_wire  ),
@@ -237,6 +237,8 @@ module tb_wrap;
   logic gpio_out8;
   always @(*) begin
      gpio_out8 = (gpio_bi[8] === 'z) ? 0 : gpio_bi[8]; 
+     jtag_if.tdo = jtag_tdo_wire;
+     spi_sdi0 = spi_sdi0_wire;
   end
 
   initial
