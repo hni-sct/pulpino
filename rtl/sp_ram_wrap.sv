@@ -44,19 +44,18 @@ module sp_ram_wrap
 
   // TODO: we should kill synthesis when the ram size is larger than what we
   // have here
-
 `elsif ASIC
-   TS1N65LPLL8192X32M16 sram_ip
-   (
-     .CLK(clk),
-     .CEB(en_i),
-     .WEB(we_i),
-     .A(addr_i[ADDR_WIDTH-1:2]),
-     .D(wdata_i),
-     .BWEB(32'hffffffff),
-     .Q(rdata_o),
-     .TSEL(2'b01)
-    );
+ TS1N65LPLL8192X32M16 sram_ip
+ (
+   .CLK(clk),
+   .CEB(~en_i),
+   .WEB(~we_i),
+   .A(addr_i[ADDR_WIDTH-1:2]),
+   .D(wdata_i),
+   .BWEB({32{~we_i}}),
+   .Q(rdata_o),
+   .TSEL(2'b01)
+  );
 `else
   sp_ram
   #(
