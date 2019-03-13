@@ -18,7 +18,7 @@
 `define EXIT_FAIL     1
 `define EXIT_ERROR   -1
 
-module tb_wrap;
+module tb_wrap_ps;
   timeunit      1ns;
   timeprecision 1ps;
 
@@ -35,6 +35,7 @@ module tb_wrap;
   int           exit_status = `EXIT_ERROR; // modelsim exit code, will be overwritten when successful
 
   string        memload;
+  string        sdf;
   logic         s_clk   = 1'b0;
 
 
@@ -284,6 +285,7 @@ module tb_wrap;
   initial
   begin
     int i;
+    //$sdf_annotate(sdf, top_i);
 
     if(!$value$plusargs("MEMLOAD=%s", memload))
       memload = "PRELOAD";

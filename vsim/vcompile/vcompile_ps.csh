@@ -24,15 +24,12 @@ rm -rf work
 vlib work
 
 echo ""
-echo "${Green}--> Compiling PULPino Platform... ${NC}"
+echo "${Green}--> Compiling PULPino Platform (post synth)... ${NC}"
 echo ""
 
-# IP blocks
-source ${PULP_PATH}/vsim/vcompile/vcompile_ips.csh  || exit 1
-
-source ${PULP_PATH}/vsim/vcompile/rtl/vcompile_pulpino.sh  || exit 1
-source ${PULP_PATH}/vsim/vcompile/tech/vcompile_sram_tsmc65.sh  || exit 1
+source ${PULP_PATH}/vsim/vcompile/ps/vcompile_ps.csh  || exit 1
 source ${PULP_PATH}/vsim/vcompile/tech/vcompile_tsmc65.sh  || exit 1
+source ${PULP_PATH}/vsim/vcompile/tech/vcompile_sram_tsmc65.sh  || exit 1
 source ${PULP_PATH}/vsim/vcompile/rtl/vcompile_tb.sh       || exit 1
 
 echo ""

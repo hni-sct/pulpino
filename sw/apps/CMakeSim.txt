@@ -117,6 +117,15 @@ macro(add_sim_targets NAME)
   # post synthesis
   #############################################################################
   # run in modelsim with GUI post synthesis
+  add_custom_target(${NAME}.vsim.ps
+    COMMAND ${CMAKE_COMMAND} -E remove stdout/*
+    COMMAND ${CMAKE_COMMAND} -E remove FS/*
+    COMMAND tcsh -c "${SETENV} ${VSIM}  -64 -do 'source tcl_files/run_ps.tcl\\;'"
+    WORKING_DIRECTORY ./${SUBDIR}
+    DEPENDS ${NAME}.slm.cmd ${NAME}.stim.txt ${NAME}.links
+    COMMENT "Running ${NAME} in ModelSim (post synthesis)"
+    ${USES_TERMINAL})
+
   add_custom_target(${NAME}.vsim.spi.ps
     COMMAND ${CMAKE_COMMAND} -E remove stdout/*
     COMMAND ${CMAKE_COMMAND} -E remove FS/*
@@ -130,6 +139,15 @@ macro(add_sim_targets NAME)
   # post layout
   #############################################################################
   # run in modelsim with GUI post layout
+  add_custom_target(${NAME}.vsim.pl
+    COMMAND ${CMAKE_COMMAND} -E remove stdout/*
+    COMMAND ${CMAKE_COMMAND} -E remove FS/*
+    COMMAND tcsh -c "${SETENV} ${VSIM}  -64 -do 'source tcl_files/run_pl.tcl\\;'"
+    WORKING_DIRECTORY ./${SUBDIR}
+    DEPENDS ${NAME}.slm.cmd ${NAME}.stim.txt ${NAME}.links
+    COMMENT "Running ${NAME} in ModelSim (post layout)"
+    ${USES_TERMINAL})
+
   add_custom_target(${NAME}.vsim.spi.pl
     COMMAND ${CMAKE_COMMAND} -E remove stdout/*
     COMMAND ${CMAKE_COMMAND} -E remove FS/*

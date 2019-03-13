@@ -165,6 +165,7 @@
         spi_send_data(use_qspi,spi_data[31:0]);
 
         num_stim     = num_stim + 1;             // increment stimuli
+        $display("Num_stim %d", num_stim);
         spi_addr_old = spi_addr;
         if (num_stim > 9999 | stimuli[num_stim]===64'bx ) // make sure we have more stimuli
           more_stim = 0;                    // if not set variable to 0, will prevent additional stimuli to be applied
