@@ -42,7 +42,7 @@ vmap $LIB_NAME $LIB_PATH
 
 echo "${Green}Compiling component: ${Brown} riscv ${NC}"
 echo "${Red}"
-vlog -quiet -sv -suppress 2583 -work ${LIB_PATH} ${PL_NETLIST} || goto error
+vlog -quiet -sv -suppress 2583 -work ${LIB_PATH} ${PS_NETLIST} || goto error
 
 echo "${Cyan}--> ${IP} compilation complete! ${NC}"
 exit 0

@@ -285,7 +285,13 @@ module tb_wrap_ps;
   initial
   begin
     int i;
-    //$sdf_annotate(sdf, top_i);
+
+    if(!$value$plusargs("SDF=%s", sdf))
+      sdf = "";
+
+    $display("SDF=%s", sdf);
+    if (sdf != "") 
+        $sdf_annotate(sdf, top_i);
 
     if(!$value$plusargs("MEMLOAD=%s", memload))
       memload = "PRELOAD";
@@ -371,7 +377,7 @@ module tb_wrap_ps;
 
   // TODO: this is a hack, do it properly!
   `include "tb_spi_pkg.sv"
-  `include "tb_mem_tsmc_pkg.sv"
+  `include "tb_mem_ps_pkg.sv"
   `include "spi_debug_test.svh"
   `include "mem_dpi.svh"
 
