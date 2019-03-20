@@ -18,7 +18,7 @@
 `define EXIT_FAIL     1
 `define EXIT_ERROR   -1
 
-module tb_wrap;
+module tb_wrap_pl;
   timeunit      1ns;
   timeprecision 1ps;
 
@@ -35,6 +35,7 @@ module tb_wrap;
   int           exit_status = `EXIT_ERROR; // modelsim exit code, will be overwritten when successful
 
   string        memload;
+  string        sdf;
   logic         s_clk   = 1'b0;
 
 
@@ -284,6 +285,7 @@ module tb_wrap;
   initial
   begin
     int i;
+    $sdf_annotate("/homes1/lift/kbastian/work/designs/pulpino-flow/par/tsmc65_wrap.pnr.sdf", top_i);
 
     if(!$value$plusargs("MEMLOAD=%s", memload))
       memload = "PRELOAD";
@@ -369,7 +371,7 @@ module tb_wrap;
 
   // TODO: this is a hack, do it properly!
   `include "tb_spi_pkg.sv"
-  `include "tb_mem_wrap_pkg.sv"
+  `include "tb_mem_pl_pkg.sv"
   `include "spi_debug_test.svh"
   `include "mem_dpi.svh"
 

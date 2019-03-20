@@ -53,14 +53,12 @@
       // preload data memory
       for (w = 0; w < numWord; w = w + 1) begin
           {row, col} = w;
-          //tb_wrap.top_i.top_i.core_region_i.data_mem.sram_ip.MEMORY[row][col] = data_mem[w];
-          tb_wrap_ps.top_i.\top_i/core_region_i/data_mem/sram_ip .MEMORY[row][col] = data_mem[w];
+          tb_wrap.top_i.top_i.core_region_i.data_mem.sram_ip.MEMORY[row][col] = data_mem[w];
       end
       // preload instruction memory
       for (w = 0; w < numWord; w = w + 1) begin
           {row, col} = w;
-          //tb_wrap.top_i.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sram_ip.MEMORY[row][col] = instr_mem[w];
-          tb_wrap_ps.top_i.\top_i/core_region_i/instr_mem/sp_ram_wrap_i/sram_ip .MEMORY[row][col] = instr_mem[w];
+          tb_wrap.top_i.top_i.core_region_i.instr_mem.sp_ram_wrap_i.sram_ip.MEMORY[row][col] = instr_mem[w];
       end
     end
   endtask
