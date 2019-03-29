@@ -36,14 +36,15 @@ module clk_rst_gen
   logic clk_fll_int;
   logic clk_int;
 
-  cluster_clock_mux2
-  clk_mux_i
-  (
-      .clk_sel_i ( clk_sel_i     ),
-      .clk0_i    ( clk_i         ),
-      .clk1_i    ( clk_fll_int   ),
-      .clk_o     ( clk_int       )
-  );
+//  cluster_clock_mux2
+//  clk_mux_i
+//  (
+//      .clk_sel_i ( clk_sel_i     ),
+//      .clk0_i    ( clk_i         ),
+//      .clk1_i    ( clk_fll_int   ),
+//      .clk_o     ( clk_int       )
+//  );
+  assign clk_int = clk_i;
 
   //----------------------------------------------------------------------------//
   // FLL
