@@ -13,7 +13,10 @@ module cluster_clock_inverter
     input  logic clk_i,
     output logic clk_o
   );
-
-  assign clk_o = ~clk_i;
+//assign clk_o = ~clk_i;
+  CKND12BWP12T clk_inv (
+    .I(clk_i),
+    .ZN(clk_o)
+  );
 
 endmodule

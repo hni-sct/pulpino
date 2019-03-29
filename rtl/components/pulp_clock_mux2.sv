@@ -16,12 +16,19 @@ module pulp_clock_mux2
     output logic clk_o
   );
 
-  always_comb
-  begin
-    if (clk_sel_i == 1'b0)
-      clk_o = clk0_i;
-    else
-      clk_o = clk1_i;
-  end
+//  always_comb
+//  begin
+//    if (clk_sel_i == 1'b0)
+//      clk_o = clk0_i;
+//    else
+//      clk_o = clk1_i;
+//  end
+   CKMUX2D0BWP12T clk_mux2 (
+    .S(clk_sel_i),
+    .I0(clk0_i),
+    .I1(clk1_i),
+    .Z(clk_o)
+   );
+
 
 endmodule
