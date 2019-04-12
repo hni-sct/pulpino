@@ -37,7 +37,7 @@ module pulpino_top
 
     //SPI Slave
     input  logic              spi_clk_i /*verilator clocker*/,
-    input  logic              spi_cs_i /*verilator clocker*/,
+    input  logic              spi_cs_i, 
     output logic [1:0]        spi_mode_o,
     output logic              spi_sdo0_o,
     output logic              spi_sdo1_o,
