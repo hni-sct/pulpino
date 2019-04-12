@@ -1,2 +1,4 @@
 obj_dir
+*.o
+logs/
 pulpino_top_sim.elf

@@ -7,8 +7,11 @@ RTL=../rtl/pulpino_top.sv
 TOP=pulpino_top
 SIM=$(TOP)_sim.elf
 
-CFLAGS=-I obj_dir -I/usr/share/verilator/include
+CFLAGS=-Iobj_dir -I/usr/share/verilator/include -g3 
+VERICSRC=/usr/share/verilator/include/verilated_vcd_c.cpp \
+		 /usr/share/verilator/include/verilated.cpp
 VFLAGS=-sv \
+	   --trace \
 	   -Wno-fatal \
 	   -pvalue+USE_ZERO_RISCY=1 \
 	   -pvalue+ZERO_RV32M=0 \
@@ -41,10 +44,15 @@ VFLAGS=-sv \
 .PHONY: all clean
 all: $(SIM)
 
-$(SIM): $(RTL)
+main.o: main.cpp
+	$(CXX) $(CFLAGS) -c $< -o $@
+
+obj_dir/V$(TOP)__ALL.a: $(RTL)
 	verilator $(LIBS) $(VFLAGS) --top-module $(TOP) -cc $<
 	cd obj_dir/ && make -f V$(TOP).mk
-	$(CXX) $(CFLAGS) main.cpp /usr/share/verilator/include/verilated.cpp obj_dir/Vpulpino_top__ALL.a -o $(SIM)
+
+$(SIM): obj_dir/V$(TOP)__ALL.a main.o
+	$(CXX) $(CFLAGS) main.o $(VERICSRC) obj_dir/Vpulpino_top__ALL.a -o $(SIM)
 
 clean:
 	rm -rf obj_dir/
