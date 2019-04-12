@@ -1,11 +1,13 @@
+CXX=g++
 LIBS=\
  ../ips/zero-riscy/include/zeroriscy_defines.sv \
  ../ips/zero-riscy/include/zeroriscy_config.sv \
 
-RTL=../rtl/pulpino_top.sv \
-
+RTL=../rtl/pulpino_top.sv
 TOP=pulpino_top
+SIM=$(TOP)_sim.elf
 
+CFLAGS=-I obj_dir -I/usr/share/verilator/include
 VFLAGS=-sv \
 	   -Wno-fatal \
 	   -pvalue+USE_ZERO_RISCY=1 \
@@ -36,6 +38,15 @@ VFLAGS=-sv \
 	   -I../ips/zero-riscy/include \
 	   -I../ips/adv_dbg_if/rtl \
 
-pulpino.verilated: $(RTL)
+.PHONY: all clean
+all: $(SIM)
+
+$(SIM): $(RTL)
 	verilator $(LIBS) $(VFLAGS) --top-module $(TOP) -cc $<
+	cd obj_dir/ && make -f V$(TOP).mk
+	$(CXX) $(CFLAGS) main.cpp /usr/share/verilator/include/verilated.cpp obj_dir/Vpulpino_top__ALL.a -o $(SIM)
+
+clean:
+	rm -rf obj_dir/
+	rm -rf $(SIM)
 
