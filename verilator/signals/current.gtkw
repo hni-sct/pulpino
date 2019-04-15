@@ -1,0 +1,22 @@
+[*]
+[*] GTKWave Analyzer v3.3.94 (w)1999-2018 BSI
+[*] Mon Apr 15 15:11:47 2019
+[*]
+[dumpfile] "/home/juander/work/projects/safe4i/hw/riscv/pulpino/verilator/logs/vlt_dump.vcd"
+[dumpfile_mtime] "Mon Apr 15 15:10:40 2019"
+[dumpfile_size] 3629865
+[savefile] "/home/juander/work/projects/safe4i/hw/riscv/pulpino/verilator/logs/signals.gtkw"
+[timestart] 0
+[size] 958 1117
+[pos] -1 -1
+*0.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 212
+[signals_width] 102
+[sst_expanded] 1
+[sst_vpaned_height] 330
+@28
+TOP.spi_clk_i
+@29
+TOP.spi_cs_i
+[pattern_trace] 1
+[pattern_trace] 0

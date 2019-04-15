@@ -7,7 +7,7 @@ RTL=../rtl/pulpino_top.sv
 TOP=pulpino_top
 SIM=$(TOP)_sim.elf
 
-CFLAGS=-Iobj_dir -I/usr/share/verilator/include -g3 
+CFLAGS=-Iobj_dir -I/usr/share/verilator/include -g3
 VERICSRC=/usr/share/verilator/include/verilated_vcd_c.cpp \
 		 /usr/share/verilator/include/verilated.cpp
 VFLAGS=-sv \
@@ -41,8 +41,14 @@ VFLAGS=-sv \
 	   -I../ips/zero-riscy/include \
 	   -I../ips/adv_dbg_if/rtl \
 
-.PHONY: all clean
+.PHONY: all clean view run
 all: $(SIM)
+
+run: $(SIM)
+	./$(SIM)
+
+view:
+	gtkwave -a signals/current.gtkw logs/vlt_dump.vcd&
 
 main.o: main.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@
@@ -57,4 +63,5 @@ $(SIM): obj_dir/V$(TOP)__ALL.a main.o
 clean:
 	rm -rf obj_dir/
 	rm -rf $(SIM)
+	rm -rf *.o
 
