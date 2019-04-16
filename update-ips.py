@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # Francesco Conti <f.conti@unibo.it>
 #
 # Copyright (C) 2016 ETH Zurich, University of Bologna.
@@ -21,7 +21,7 @@ def execute_out(cmd, silent=False):
     return out
 
 def find_server():
-    stdout = execute_out("git remote -v")
+    stdout = "origin	https://github.com/pulp-platform/pulpino.git (fetch)\norigin	https://github.com/pulp-platform/pulpino.git (push)" #execute_out("git remote -v")
 
     stdout = stdout.split('\n')
     for line in stdout:
