@@ -150,7 +150,7 @@ module tsmc65_wrap
     .clk(net_clk),
     .rst_n(net_rst_n),
     .clk_sel_i(1'b0),
-    .clk_standalone_i(net_clk_standalone_i),
+    .clk_standalone_i(1'b1),
     .testmode_i(1'b0),
     .fetch_enable_i(net_fetch_enable_i),
     .scan_enable_i(net_scan_enable_i),
@@ -252,9 +252,9 @@ module tsmc65_wrap
     .IE(1'b1)
   );
 
-  PDDW0204CDG pad_spi_sdo0_o_0 (
+  PDDW1216CDG pad_spi_sdo0_o_0 (
     .I(net_spi_sdo0_o),
-    .DS(1'b0),
+    .DS(1'b1),
     .OEN(1'b0),
     .PAD(spi_sdo0_o),
     .C(),
@@ -272,9 +272,9 @@ module tsmc65_wrap
     .IE(1'b1)
   );
 
-  PDDW0204CDG pad_spi_master_clk_o_0 (
+  PDDW1216CDG pad_spi_master_clk_o_0 (
     .I(net_spi_master_clk_o),
-    .DS(1'b0),
+    .DS(1'b1),
     .OEN(1'b0),
     .PAD(spi_master_clk_o),
     .C(),
@@ -282,9 +282,9 @@ module tsmc65_wrap
     .IE(1'b0)
   );
 
-  PDDW0204CDG pad_spi_master_csn0_o_0 (
+  PDDW1216CDG pad_spi_master_csn0_o_0 (
     .I(net_spi_master_csn0_o),
-    .DS(1'b0),
+    .DS(1'b1),
     .OEN(1'b0),
     .PAD(spi_master_csn0_o),
     .C(),
@@ -292,9 +292,9 @@ module tsmc65_wrap
     .IE(1'b0)
   );
 
-  PDDW0204CDG pad_spi_master_sdo0_o_0 (
+  PDDW1216CDG pad_spi_master_sdo0_o_0 (
     .I(net_spi_master_sdo0_o),
-    .DS(1'b0),
+    .DS(1'b1),
     .OEN(1'b0),
     .PAD(spi_master_sdo0_o),
     .C(),
@@ -314,9 +314,9 @@ module tsmc65_wrap
 
   // UART
 
-  PDDW0204CDG pad_uart_tx_0 (
+  PDDW1216CDG pad_uart_tx_0 (
     .I(net_uart_tx),
-    .DS(1'b0),
+    .DS(1'b1),
     .OEN(1'b0),
     .PAD(uart_tx),
     .C(),
@@ -334,9 +334,9 @@ module tsmc65_wrap
     .IE(1'b1)
   );
 
-  PDDW0204CDG pad_uart_rts_0 (
+  PDDW1216CDG pad_uart_rts_0 (
     .I(net_uart_rts),
-    .DS(1'b0),
+    .DS(1'b1),
     .OEN(1'b0),
     .PAD(uart_rts),
     .C(),
@@ -344,9 +344,9 @@ module tsmc65_wrap
     .IE(1'b0)
   );
 
-  PDDW0204CDG pad_uart_dtr_0 (
+  PDDW1216CDG pad_uart_dtr_0 (
     .I(net_uart_dtr),
-    .DS(1'b0),
+    .DS(1'b1),
     .OEN(1'b0),
     .PAD(uart_dtr),
     .C(),
@@ -415,9 +415,9 @@ module tsmc65_wrap
     .IE(1'b1)
   );
 
-  PDDW0204CDG pad_tdo_o_0 (
+  PDDW1216CDG pad_tdo_o_0 (
     .I(net_tdo_o),
-    .DS(1'b0),
+    .DS(1'b1),
     .OEN(1'b0),
     .PAD(tdo_o),
     .C(),
@@ -426,89 +426,89 @@ module tsmc65_wrap
   );
 
   // GPIOs
-  PDDW0204CDG pad_gpio_0(
-    .I(net_gpio_in[0]),
-    .DS(1'b0),
-    .OEN(net_gpio_dir[0]),
+  PDDW1216CDG pad_gpio_0(
+    .I(net_gpio_out[0]),
+    .DS(net_gpio_dir[0]),
+    .OEN(~net_gpio_dir[0]),
     .PAD(gpio[0]),
-    .C(net_gpio_out[0]),
+    .C(net_gpio_in[0]),
     .PE(net_gpio_padcfg[0][0]),
     .IE(~net_gpio_dir[0])
   );
 
-  PDDW0204CDG pad_gpio_1(
-    .I(net_gpio_in[1]),
-    .DS(1'b0),
-    .OEN(net_gpio_dir[1]),
+  PDDW1216CDG pad_gpio_1(
+    .I(net_gpio_out[1]),
+    .DS(net_gpio_dir[1]),
+    .OEN(~net_gpio_dir[1]),
     .PAD(gpio[1]),
-    .C(net_gpio_out[1]),
+    .C(net_gpio_in[1]),
     .PE(net_gpio_padcfg[1][0]),
     .IE(~net_gpio_dir[1])
   );
 
-  PDDW0204CDG pad_gpio_2(
-    .I(net_gpio_in[2]),
-    .DS(1'b0),
-    .OEN(net_gpio_dir[2]),
+  PDDW1216CDG pad_gpio_2(
+    .I(net_gpio_out[2]),
+    .DS(net_gpio_dir[2]),
+    .OEN(~net_gpio_dir[2]),
     .PAD(gpio[2]),
-    .C(net_gpio_out[2]),
+    .C(net_gpio_in[2]),
     .PE(net_gpio_padcfg[2][0]),
     .IE(~net_gpio_dir[2])
   );
 
-  PDDW0204CDG pad_gpio_3(
-    .I(net_gpio_in[3]),
-    .DS(1'b0),
-    .OEN(net_gpio_dir[3]),
+  PDDW1216CDG pad_gpio_3(
+    .I(net_gpio_out[3]),
+    .DS(net_gpio_dir[3]),
+    .OEN(~net_gpio_dir[3]),
     .PAD(gpio[3]),
-    .C(net_gpio_out[3]),
+    .C(net_gpio_in[3]),
     .PE(net_gpio_padcfg[3][0]),
     .IE(~net_gpio_dir[3])
   );
 
-  PDDW0204CDG pad_gpio_4(
-    .I(net_gpio_in[4]),
-    .DS(1'b0),
-    .OEN(net_gpio_dir[4]),
+  PDDW1216CDG pad_gpio_4(
+    .I(net_gpio_out[4]),
+    .DS(net_gpio_dir[4]),
+    .OEN(~net_gpio_dir[4]),
     .PAD(gpio[4]),
-    .C(net_gpio_out[4]),
+    .C(net_gpio_in[4]),
     .PE(net_gpio_padcfg[4][0]),
     .IE(~net_gpio_dir[4])
   );
 
-  PDDW0204CDG pad_gpio_5(
-    .I(net_gpio_in[5]),
-    .DS(1'b0),
-    .OEN(net_gpio_dir[5]),
+  PDDW1216CDG pad_gpio_5(
+    .I(net_gpio_out[5]),
+    .DS(net_gpio_dir[5]),
+    .OEN(~net_gpio_dir[5]),
     .PAD(gpio[5]),
-    .C(net_gpio_out[5]),
+    .C(net_gpio_in[5]),
     .PE(net_gpio_padcfg[5][0]),
     .IE(~net_gpio_dir[5])
   );
 
-  PDDW0204CDG pad_gpio_6(
-    .I(net_gpio_in[6]),
-    .DS(1'b0),
-    .OEN(net_gpio_dir[6]),
+  PDDW1216CDG pad_gpio_6(
+    .I(net_gpio_out[6]),
+    .DS(net_gpio_out[6]),
+    .OEN(~net_gpio_dir[6]),
     .PAD(gpio[6]),
-    .C(net_gpio_out[6]),
+    .C(net_gpio_in[6]),
     .PE(net_gpio_padcfg[6][0]),
     .IE(~net_gpio_dir[6])
   );
 
-  PDDW0204CDG pad_gpio_7(
-    .I(net_gpio_in[7]),
-    .DS(1'b0),
-    .OEN(net_gpio_dir[7]),
+  PDDW1216CDG pad_gpio_7(
+    .I(net_gpio_out[7]),
+    .DS(net_gpio_dir[7]),
+    .OEN(~net_gpio_dir[7]),
     .PAD(gpio[7]),
-    .C(net_gpio_out[7]),
+    .C(net_gpio_in[7]),
     .PE(net_gpio_padcfg[7][0]),
     .IE(~net_gpio_dir[7])
   );
 
-  PDDW0204CDG pad_gpio_8(
+  PDDW1216CDG pad_gpio_8(
     .I(net_gpio_out[8]),
-    .DS(1'b0),
+    .DS(net_gpio_dir[8]),
     .OEN(~net_gpio_dir[8]),
     .PAD(gpio[8]),
     .C(net_gpio_in[8]),
@@ -516,22 +516,22 @@ module tsmc65_wrap
     .IE(~net_gpio_dir[8])
   );
 
-  PDDW0204CDG pad_gpio_9(
-    .I(net_gpio_in[9]),
-    .DS(1'b0),
-    .OEN(net_gpio_dir[9]),
+  PDDW1216CDG pad_gpio_9(
+    .I(net_gpio_out[9]),
+    .DS(net_gpio_dir[9]),
+    .OEN(~net_gpio_dir[9]),
     .PAD(gpio[9]),
-    .C(net_gpio_out[9]),
+    .C(net_gpio_in[9]),
     .PE(net_gpio_padcfg[9][0]),
     .IE(~net_gpio_dir[9])
   );
 
-  PDDW0204CDG pad_gpio_10(
-    .I(net_gpio_in[10]),
-    .DS(1'b0),
-    .OEN(net_gpio_dir[10]),
+  PDDW1216CDG pad_gpio_10(
+    .I(net_gpio_out[10]),
+    .DS(net_gpio_dir[10]),
+    .OEN(~net_gpio_dir[10]),
     .PAD(gpio[10]),
-    .C(net_gpio_out[10]),
+    .C(net_gpio_in[10]),
     .PE(net_gpio_padcfg[10][0]),
     .IE(~net_gpio_dir[10])
   );
