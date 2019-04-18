@@ -35,9 +35,10 @@ ARDUINO_LIB=1
 PULP_GIT_DIRECTORY=../../
 SIM_DIRECTORY="$PULP_GIT_DIRECTORY/vsim"
 #insert here your post-layout netlist if you are using IMPERIO
-PS_NETLIST="/homes1/lift/kbastian/work/designs/pulpino-flow/syn/tsmc65_wrap_post_synth.v"
-PL_NETLIST="/homes1/lift/kbastian/work/designs/pulpino-flow/par/tsmc65_wrap.pnr.sim.v"
-SDF="/homes1/lift/kbastian/work/designs/pulpino-flow/syn/tsmc65_wrap.sdf"
+PS_NETLIST="/scratchpad/kbastian/designs/pulpino/syn/tsmc65_wrap_post_synth.v"
+PL_NETLIST="../../../..//par/tsmc65_wrap.pnr.sim.v"
+PS_SDF="/scratchpad/kbastian/designs/pulpino/syn/tsmc65_wrap.sdf"
+PL_SDF="/scratchpad/kbastian/designs/pulpino/par/tsmc65_wrap.sdf"
 
 cmake "$PULP_GIT_DIRECTORY"/sw/ \
     -DPULP_MODELSIM_DIRECTORY="$SIM_DIRECTORY" \
@@ -49,10 +50,11 @@ cmake "$PULP_GIT_DIRECTORY"/sw/ \
     -DZERO_RV32M="$ZERO_RV32M" \
     -DZERO_RV32E="$ZERO_RV32E" \
     -DGCC_MARCH="$GCC_MARCH" \
-    -DSDF="$SDF_FILE" \
     -DARDUINO_LIB="$ARDUINO_LIB" \
     -DPS_NETLIST="$PS_NETLIST" \
     -DPL_NETLIST="$PL_NETLIST" \
+    -DPS_SDF="$PS_SDF" \
+    -DPL_SDF="$PL_SDF" \
     -DCMAKE_C_FLAGS="$TARGET_C_FLAGS" \
     -DCMAKE_OBJCOPY="$OBJCOPY" \
     -DCMAKE_OBJDUMP="$OBJDUMP"
