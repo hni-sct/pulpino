@@ -20,7 +20,7 @@ module peripherals
     parameter AXI_USER_WIDTH       = 6,
     parameter AXI_SLAVE_ID_WIDTH   = 6,
     parameter AXI_MASTER_ID_WIDTH  = 6,
-    parameter ROM_START_ADDR       = 32'h8000
+    parameter ROM_START_ADDR       = 32'h0000
   )
   (
     // Clock and Reset
@@ -147,34 +147,34 @@ module peripherals
   ///                                                            ///
   //////////////////////////////////////////////////////////////////
 
-  axi_spi_slave_wrap
-  #(
-    .AXI_ADDRESS_WIDTH  ( AXI_ADDR_WIDTH       ),
-    .AXI_DATA_WIDTH     ( AXI_DATA_WIDTH       ),
-    .AXI_USER_WIDTH     ( AXI_USER_WIDTH       ),
-    .AXI_ID_WIDTH       ( AXI_MASTER_ID_WIDTH  )
-  )
-  axi_spi_slave_i
-  (
-    .clk_i      ( clk_int[0]     ),
-    .rst_ni     ( rst_n          ),
-
-    .test_mode  ( testmode_i     ),
-
-    .axi_master ( axi_spi_master ),
-
-    .spi_clk    ( spi_clk_i      ),
-    .spi_cs     ( spi_cs_i       ),
-    .spi_mode   ( spi_mode_o     ),
-    .spi_sdo0   ( spi_sdo0_o     ),
-    .spi_sdo1   ( spi_sdo1_o     ),
-    .spi_sdo2   ( spi_sdo2_o     ),
-    .spi_sdo3   ( spi_sdo3_o     ),
-    .spi_sdi0   ( spi_sdi0_i     ),
-    .spi_sdi1   ( spi_sdi1_i     ),
-    .spi_sdi2   ( spi_sdi2_i     ),
-    .spi_sdi3   ( spi_sdi3_i     )
-  );
+//  axi_spi_slave_wrap
+//  #(
+//    .AXI_ADDRESS_WIDTH  ( AXI_ADDR_WIDTH       ),
+//    .AXI_DATA_WIDTH     ( AXI_DATA_WIDTH       ),
+//    .AXI_USER_WIDTH     ( AXI_USER_WIDTH       ),
+//    .AXI_ID_WIDTH       ( AXI_MASTER_ID_WIDTH  )
+//  )
+//  axi_spi_slave_i
+//  (
+//    .clk_i      ( clk_int[0]     ),
+//    .rst_ni     ( rst_n          ),
+//
+//    .test_mode  ( testmode_i     ),
+//
+//    .axi_master ( axi_spi_master ),
+//
+//    .spi_clk    ( spi_clk_i      ),
+//    .spi_cs     ( spi_cs_i       ),
+//    .spi_mode   ( spi_mode_o     ),
+//    .spi_sdo0   ( spi_sdo0_o     ),
+//    .spi_sdo1   ( spi_sdo1_o     ),
+//    .spi_sdo2   ( spi_sdo2_o     ),
+//    .spi_sdo3   ( spi_sdo3_o     ),
+//    .spi_sdi0   ( spi_sdi0_i     ),
+//    .spi_sdi1   ( spi_sdi1_i     ),
+//    .spi_sdi2   ( spi_sdi2_i     ),
+//    .spi_sdi3   ( spi_sdi3_i     )
+//  );
 
   //////////////////////////////////////////////////////////////////
   ///                                                            ///

@@ -12,6 +12,7 @@ VERICSRC=/usr/share/verilator/include/verilated_vcd_c.cpp \
 		 /usr/share/verilator/include/verilated.cpp
 VFLAGS=-sv \
 	   --trace \
+	   --trace-max-array 8192 \
 	   -Wno-fatal \
 	   -pvalue+USE_ZERO_RISCY=1 \
 	   -pvalue+ZERO_RV32M=0 \
