@@ -26,17 +26,51 @@ double sc_time_stamp () {
     return main_time;
 }
 
+uint32_t last_tx=1;
+int64_t ticks=0;
+uint8_t uart_byte=0;
+uint32_t uart_buf_idx=0;
+bool start_reading = false;
+void update_uart(Vpulpino_top *top, VerilatedVcdC *tfp)
+{
+    if (last_tx == 1 && top->uart_tx == 0) {
+        last_tx = 0;
+        ticks = -3;
+        uart_byte=0;
+        uart_buf_idx = 0;
+        start_reading = true;
+    }
+    if (start_reading) {
+        if (ticks > 3) {
+            uart_byte |= (top->uart_tx << uart_buf_idx);
+            uart_buf_idx++;
+            ticks=0;
+        }
+        if (uart_buf_idx > 7) {
+            printf("%c", uart_byte);
+            start_reading = false;
+        }
+        ticks++;
+    } else {
+        if (last_tx == 0 && top->uart_tx == 1) {
+            last_tx = 1;
+        }
+    }
+}
+
 void run_tick_clk(Vpulpino_top *tb, VerilatedVcdC *tfp)
 {
     tb->clk = 1;
     tb->eval();
     main_time += CLK_DELAY /2;
+    update_uart(tb, tfp);
 #ifdef VM_TRACE
     tfp->dump(static_cast<vluint64_t>(main_time));
 #endif
     tb->clk = 0;
     tb->eval();
     main_time += CLK_DELAY /2;
+    update_uart(tb, tfp);
 #ifdef VM_TRACE
     tfp->dump(static_cast<vluint64_t>(main_time));
 #endif
@@ -146,7 +180,8 @@ int main(int argc, char **argv) {
     top->fetch_enable_i = 1;
     do {
         run_tick_clk(top, tfp);
-    } while ((top->gpio_out & (1 << 8)) != 0);
+        //printf("UART_TX=%x\n", top->uart_tx);
+    } while ((top->gpio_out & (1 << 8)) == 0);
 #ifdef VM_TRACE
     if (tfp)
         tfp->close();
