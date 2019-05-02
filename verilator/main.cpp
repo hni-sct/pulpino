@@ -13,7 +13,6 @@
 #include "verilated_vcd_c.h"
 #include "verilated.h"
 
-#define JTAG_INSTR_WIDTH 4
 #define CLK_DELAY 40 // ns
 #define SCLK_DELAY 50 // ns
 #define JCLK_DELAY 40 // ns
@@ -26,35 +25,66 @@ double sc_time_stamp () {
     return main_time;
 }
 
+/*
+ * Hacky UART receiver:
+ *     it is coupled to 40ns clk period as I don't know yet how to sample
+ *     uart_tx asynchronously.
+ */
+
 uint32_t last_tx=1;
+bool uart_falling_edge(uint32_t tx) {
+    if (last_tx == 1 && tx == 0) {
+        last_tx = 0;
+        return true;
+    }
+    return false;
+}
+
+void uart_rising_edge(uint32_t tx) {
+    if (last_tx == 0 && tx == 1) {
+        last_tx = 1;
+    }
+}
+
+bool start_reading = false;
+uint32_t uart_bit_idx=0;
 int64_t ticks=0;
 uint8_t uart_byte=0;
-uint32_t uart_buf_idx=0;
-bool start_reading = false;
+
+void uart_recv_bit(Vpulpino_top *top)
+{
+    if (ticks > 3) {
+        uart_byte |= (top->uart_tx << uart_bit_idx);
+        uart_bit_idx++;
+        ticks=0;
+    }
+}
+
+void uart_print_byte(uint8_t byte) {
+    printf("%c", byte);
+    start_reading = false;
+}
+
 void update_uart(Vpulpino_top *top, VerilatedVcdC *tfp)
 {
-    if (last_tx == 1 && top->uart_tx == 0) {
-        last_tx = 0;
+    if (uart_falling_edge(top->uart_tx)) {
+        /* HACK: The start bit is active for 3 clock periods
+         * the other bits are active for 2 clock periods.
+         */
         ticks = -3;
         uart_byte=0;
-        uart_buf_idx = 0;
+        uart_bit_idx = 0;
         start_reading = true;
     }
+
     if (start_reading) {
-        if (ticks > 3) {
-            uart_byte |= (top->uart_tx << uart_buf_idx);
-            uart_buf_idx++;
-            ticks=0;
-        }
-        if (uart_buf_idx > 7) {
-            printf("%c", uart_byte);
-            start_reading = false;
+        uart_recv_bit(top);
+        if (uart_bit_idx > 7) {
+            uart_print_byte(uart_byte);
         }
         ticks++;
     } else {
-        if (last_tx == 0 && top->uart_tx == 1) {
-            last_tx = 1;
-        }
+        uart_rising_edge(top->uart_tx);
     }
 }
 
@@ -145,11 +175,6 @@ void reset(Vpulpino_top *top, VerilatedVcdC *tfp)
 #ifdef VM_TRACE
     tfp->dump(static_cast<vluint64_t>(main_time));
 #endif
-
-//    jtag_reset(top, tfp);
-//    jtag_softreset(top, tfp);
-//    jtag_init(top, tfp);
-
 }
 
 int main(int argc, char **argv) {
@@ -177,11 +202,12 @@ int main(int argc, char **argv) {
     reset(top, tfp);
     preload_hex(top, tfp, "sw/helloworld.hex");
 
+    /* start fetchin instructions and run the test */
     top->fetch_enable_i = 1;
     do {
         run_tick_clk(top, tfp);
-        //printf("UART_TX=%x\n", top->uart_tx);
     } while ((top->gpio_out & (1 << 8)) == 0);
+
 #ifdef VM_TRACE
     if (tfp)
         tfp->close();

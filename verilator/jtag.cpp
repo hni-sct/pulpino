@@ -1,3 +1,5 @@
+#define JTAG_INSTR_WIDTH 4
+
 void run_tick_jtag_clk(Vpulpino_top *tb, VerilatedVcdC *tfp)
 {
     tb->tck_i = 1;
