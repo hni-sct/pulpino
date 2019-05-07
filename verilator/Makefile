@@ -49,7 +49,7 @@ run: $(SIM)
 	./$(SIM)
 
 view:
-	gtkwave -a signals/current.gtkw logs/vlt_dump.vcd&
+	gtkwave -a signals/current.gtkw vlt_dump.vcd&
 
 main.o: main.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@

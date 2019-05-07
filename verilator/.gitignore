@@ -1,4 +1,4 @@
 obj_dir
 *.o
-logs/
+vlt_dump.vcd
 pulpino_top_sim.elf

@@ -34,8 +34,6 @@
 #define SCLK_DELAY 50 // ns
 #define JCLK_DELAY 40 // ns
 
-#define VM_TRACE
-
 static vluint64_t main_time = 0;
 
 double sc_time_stamp () {
@@ -205,15 +203,13 @@ int main(int argc, char **argv) {
 
     // Create an instance of our module under test
     Vpulpino_top *top = new Vpulpino_top;
-
-#ifdef VM_TRACE
     VerilatedVcdC* tfp = NULL;
+#ifdef VM_TRACE
     Verilated::traceEverOn(true);  // Verilator must compute traced signals
     VL_PRINTF("Enabling waves into logs/vlt_dump.vcd...\n");
     tfp = new VerilatedVcdC;
     top->trace(tfp, 99);  // Trace 99 levels of hierarchy
-    Verilated::mkdir("logs");
-    tfp->open("logs/vlt_dump.vcd");  // Open the dump file
+    tfp->open("vlt_dump.vcd");  // Open the dump file
 #endif
 
     reset(top, tfp);
