@@ -15,8 +15,8 @@ VFLAGS=-sv \
 	   --trace-max-array 8192 \
 	   -Wno-fatal \
 	   -pvalue+USE_ZERO_RISCY=1 \
-	   -pvalue+ZERO_RV32M=0 \
-	   -pvalue+ZERO_RV32E=1 \
+	   -pvalue+ZERO_RV32M=1 \
+	   -pvalue+ZERO_RV32E=0 \
 	   -I../rtl/includes \
 	   -I../rtl/components \
 	   -I../rtl \
