@@ -162,6 +162,42 @@ void preload_hex(Vpulpino_top *top, VerilatedVcdC *tfp, const char *filepath)
     fclose(fp);
 }
 
+void raise_gpio(Vpulpino_top *top, VerilatedVcdC *tfp)
+{
+    top->gpio_in |= 1 << 16;
+    run_tick_clk(top, tfp);
+    top->gpio_in &= ~(1 << 16);
+}
+
+static int raise_interrupt = 0;
+void sig_user_handler(int sig)
+{
+    if (sig == SIGUSR1) {
+        raise_interrupt = 1;
+    }
+}
+
+void run_simulation(Vpulpino_top *top, VerilatedVcdC *tfp)
+{
+    top->fetch_enable_i = 1;
+    do {
+        run_tick_clk(top, tfp);
+        if (raise_interrupt == 1) {
+            raise_gpio(top, tfp);
+            raise_interrupt = 0;
+        }
+    } while ((top->gpio_out & (1 << 8)) == 0);
+}
+
+void read_user_input()
+{
+    while (1) {
+        getchar();
+        kill(0, SIGUSR1);
+    }
+}
+
+
 void reset(Vpulpino_top *top, VerilatedVcdC *tfp)
 {
     top->testmode_i = 0;
@@ -213,14 +249,15 @@ int main(int argc, char **argv) {
 #endif
 
     reset(top, tfp);
-    preload_hex(top, tfp, "sw/helloworld.hex");
+    preload_hex(top, tfp, "sw/wake.hex");
 
-    /* start fetchin instructions and run the test */
-    top->fetch_enable_i = 1;
-    do {
-        run_tick_clk(top, tfp);
-    } while ((top->gpio_out & (1 << 8)) == 0);
-
+    signal(SIGUSR1, sig_user_handler);
+    pid_t pid = fork();
+    if (pid == 0) {
+        read_user_input();
+    } else {
+        run_simulation(top, tfp);
+    }
 #ifdef VM_TRACE
     if (tfp)
         tfp->close();
