@@ -139,9 +139,9 @@ void preload_hex(Vpulpino_top *top, VerilatedVcdC *tfp, const char *filepath)
         char *ptr;
         HexData *elm = (HexData*)malloc(sizeof(HexData));
         ptr = strtok(buf, "_");
-        elm->addr = (uint32_t)strtol(ptr, NULL, 16);
+        elm->addr = (uint32_t)strtoul(ptr, NULL, 16);
         ptr = strtok(NULL, "_");
-        elm->data = (uint32_t)strtol(ptr, NULL, 16);
+        elm->data = (uint32_t)strtoul(ptr, NULL, 16);
         data.push_back(elm);
     }
     printf("Preloading Instruction RAM\n");
