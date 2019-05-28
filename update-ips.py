@@ -86,9 +86,18 @@ else:
     import ipstools
 
 # creates an IPApproX database
-ipdb = ipstools.IPDatabase(ips_dir="./ips", skip_scripts=True)
+ipdb = ipstools.IPDatabase(
+    skip_scripts=True,
+    build_deps_tree=True,
+    resolve_deps_conflicts=True,
+    rtl_dir='rtl',
+    ips_dir='ips',
+    vsim_dir='sim',
+    default_server="https://github.com",
+)
 # updates the IPs from the git repo
-ipdb.update_ips(remote = remote)
+ipdb.update_ips()
 
 # launch generate-ips.py
+ipdb.save_database()
 execute("./generate-scripts.py")
