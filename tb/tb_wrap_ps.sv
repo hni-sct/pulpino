@@ -12,7 +12,7 @@
 `include "tb_jtag_pkg.sv"
 
 `define REF_CLK_PERIOD   (2*15.25us)  // 32.786 kHz --> FLL reset value --> 50 MHz
-`define CLK_PERIOD       15.00ns      // 66.66666 MHz
+`define CLK_PERIOD       40.00ns      // 66.66666 MHz
 
 `define EXIT_SUCCESS  0
 `define EXIT_FAIL     1
