@@ -35,10 +35,10 @@ ARDUINO_LIB=1
 PULP_GIT_DIRECTORY=../../
 SIM_DIRECTORY="$PULP_GIT_DIRECTORY/vsim"
 #insert here your post-layout netlist if you are using IMPERIO
-PS_NETLIST="/scratchpad/kbastian/designs/pulpino/syn/tsmc65_wrap_post_synth.v"
-PL_NETLIST="../../../..//par/tsmc65_wrap.pnr.sim.v"
-PS_SDF="/scratchpad/kbastian/designs/pulpino/syn/tsmc65_wrap.sdf"
-PL_SDF="/scratchpad/kbastian/designs/pulpino/par/tsmc65_wrap.sdf"
+PS_NETLIST=$(readlink -m ../../../../syn/tsmc65_wrap_post_synth.v)
+PL_NETLIST=$(readlink -m ../../../../par/tsmc65_wrap.pnr.sim.v)
+PS_SDF=$(readlink -m ../../../../syn/tsmc65_wrap.sdf)
+PL_SDF=$(readlink -m ../../../../par/tsmc65_wrap.sdf)
 
 cmake "$PULP_GIT_DIRECTORY"/sw/ \
     -DPULP_MODELSIM_DIRECTORY="$SIM_DIRECTORY" \
