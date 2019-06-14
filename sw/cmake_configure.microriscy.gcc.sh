@@ -38,7 +38,7 @@ SIM_DIRECTORY="$PULP_GIT_DIRECTORY/vsim"
 PS_NETLIST=$(readlink -m ../../../../syn/tsmc65_wrap_post_synth.v)
 PL_NETLIST=$(readlink -m ../../../../par/tsmc65_wrap.pnr.sim.v)
 PS_SDF=$(readlink -m ../../../../syn/tsmc65_wrap.sdf)
-PL_SDF=$(readlink -m ../../../../par/tsmc65_wrap.sdf)
+PL_SDF=$(readlink -m ../../../../par/tsmc65_wrap.post_pnr.sdf)
 
 cmake "$PULP_GIT_DIRECTORY"/sw/ \
     -DPULP_MODELSIM_DIRECTORY="$SIM_DIRECTORY" \

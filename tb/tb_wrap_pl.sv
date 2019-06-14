@@ -285,7 +285,12 @@ module tb_wrap_pl;
   initial
   begin
     int i;
-    $sdf_annotate("/homes1/lift/kbastian/work/designs/pulpino-flow/par/tsmc65_wrap.pnr.sdf", top_i);
+    if(!$value$plusargs("SDF=%s", sdf))
+      sdf = "";
+
+    $display("SDF=%s", sdf);
+    if (sdf != "") 
+        $sdf_annotate(sdf, top_i);
 
     if(!$value$plusargs("MEMLOAD=%s", memload))
       memload = "PRELOAD";
