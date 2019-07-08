@@ -140,7 +140,7 @@ module tsmc65_wrap
     logic [31:0] net_pad_mux_o;
 
 
-  pulpino_top 
+  pulpino_top
   #(
     .USE_ZERO_RISCY(1),
     .RISCY_RV32F(0),
@@ -204,11 +204,14 @@ module tsmc65_wrap
     .pad_mux_o(net_pad_mux_o)
   );
 
-  PXOE1CDG pad_clk_0 (
-    .XE(1'b1),
-    .XI(clk),
-    .XO(),
-    .XC(net_clk)
+  PDDW0204CDG pad_clk_0 (
+    .I(),
+    .DS(1'b0),
+    .OEN(1'b1),
+    .PAD(clk),
+    .C(net_clk),
+    .PE(1'b0),
+    .IE(1'b1)
   );
 
   PDDW0204CDG pad_rst_n_0 (
