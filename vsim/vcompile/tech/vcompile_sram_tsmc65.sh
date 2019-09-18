@@ -48,7 +48,7 @@ echo "${Red}"
 
 
 # files depending on RISCV vs. OR1K
-vlog -quiet -sv -work ${LIB_PATH} ${PULP_PATH}/../../ips/SRAM/VERILOG/ts1n65lpll8192x32m16_220a_ss1p08vm40c.v  || goto error
+vlog -quiet -sv -work ${LIB_PATH} ${PULP_PATH}/../../ips/sram/tsmc65/ts1n65lpll8192x32m16_220a/VERILOG/ts1n65lpll8192x32m16_220a_ss1p08vm40c.v  || goto error
 
 echo "${Cyan}--> ${IP_NAME} compilation complete! ${NC}"
 exit 0
