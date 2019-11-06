@@ -379,6 +379,5 @@ module tb_wrap_ps;
   `include "tb_spi_pkg.sv"
   `include "tb_mem_ps_pkg.sv"
   `include "spi_debug_test.svh"
-  `include "mem_dpi.svh"
 
 endmodule
