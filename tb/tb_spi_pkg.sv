@@ -12,7 +12,7 @@
   `define SPI_QUAD_TX 2'b01
   `define SPI_QUAD_RX 2'b10
 
-  `define SPI_SEMIPERIOD      50ns    //10Mhz SPI CLK
+  `define SPI_SEMIPERIOD      40ns    //10Mhz SPI CLK
 
   `define DELAY_BETWEEN_SPI   100ns
 

@@ -12,7 +12,7 @@
 `include "tb_jtag_pkg.sv"
 
 `define REF_CLK_PERIOD   (2*15.25us)  // 32.786 kHz --> FLL reset value --> 50 MHz
-`define CLK_PERIOD       40.00ns      // 66.66666 MHz
+`define CLK_PERIOD       15.00ns      // 66.66666 MHz
 
 `define EXIT_SUCCESS  0
 `define EXIT_FAIL     1
@@ -24,7 +24,7 @@ module tb_wrap_ps;
 
   // +MEMLOAD= valid values are "SPI", "STANDALONE" "PRELOAD", "" (no load of L2)
   parameter  SPI            = "SINGLE";    // valid values are "SINGLE", "QUAD"
-  parameter  BAUDRATE       = 781250;    // 1562500
+  parameter  BAUDRATE       = 2083333;    // 1562500
   parameter  CLK_USE_FLL    = 0;  // 0 or 1
   parameter  TEST           = ""; //valid values are "" (NONE), "DEBUG"
   parameter  USE_ZERO_RISCY = 1;

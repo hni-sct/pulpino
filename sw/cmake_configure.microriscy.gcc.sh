@@ -25,7 +25,7 @@ RISCY_RV32F=0
 # zeroriscy with the multiplier
 ZERO_RV32M=0
 # zeroriscy with only 16 registers
-ZERO_RV32E=1
+ZERO_RV32E=0
 
 # riscy with PULPextensions, it is assumed you use the ETH GCC Compiler
 GCC_MARCH="RV32I"
