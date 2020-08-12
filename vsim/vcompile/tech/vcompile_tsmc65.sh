@@ -48,8 +48,8 @@ echo "${Red}"
 
 
 # files depending on RISCV vs. OR1K
-vlog -quiet -sv -work ${LIB_PATH} /opt/sct/pdk/tsmc/65n/IO2.5V/iolib/LINEAR/tpdn65lpnv2od3_200a_FE/TSMCHOME/digital/Front_End/verilog/tpdn65lpnv2od3_140b/tpdn65lpnv2od3.v  || goto error
-vlog -quiet -sv -work ${LIB_PATH} /opt/sct/pdk/tsmc/65n/stclib/12-track/tcbn65lpbwp12t-set/tcbn65lpbwp12t_200b_FE/TSMCHOME/digital/Front_End/verilog/tcbn65lpbwp12t_200a/tcbn65lpbwp12t.v  || goto error
+vlog -quiet -sv -work ${LIB_PATH} /opt/sct/pdk/tsmc/65n/europractice/iocells/linear/TSMCHOME/digital/Front_End/verilog/tpdn65lpnv2od3_140b/tpdn65lpnv2od3.v || goto error
+vlog -quiet -sv -work ${LIB_PATH} /opt/sct/pdk/tsmc/65n/europractice/stdcells/TSMCHOME/digital/Front_End/verilog/tcbn65lpbwp12t_200a/tcbn65lpbwp12t.v || goto error
 
 echo "${Cyan}--> ${IP_NAME} compilation complete! ${NC}"
 exit 0
