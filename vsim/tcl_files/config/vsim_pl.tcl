@@ -1,4 +1,6 @@
 set cmd "vsim -quiet $TB \
+  -sv_lib $env(JTAG_ROOT)/jtag_dpi \
+  -sv_root $env(JTAG_ROOT) \
   -L riscv.pl_lib \
   -L tsmc65_lib \
   -L sram_tsmc65_lib \

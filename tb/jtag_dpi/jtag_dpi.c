@@ -75,7 +75,12 @@ int jtag_recv(svLogic* tck, svLogic* trstn, svLogic* tdi, svLogic* tms) {
 
   if(!jp_got_con) {
     if(!jp_check_con()) {
-      return 0;
+      // if no debugger connected give the jtag port sane values
+      *tck = 0;
+      *trstn = 0;
+      *tdi = 0;
+      *tms = 0;
+      return 1;
     }
   }
 

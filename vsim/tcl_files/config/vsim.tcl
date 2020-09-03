@@ -1,6 +1,8 @@
 source tcl_files/config/vsim_ips.tcl
 
 set cmd "vsim -quiet $TB \
+  -sv_lib $env(JTAG_ROOT)/jtag_dpi \
+  -sv_root $env(JTAG_ROOT) \
   -L pulpino_lib \
   $VSIM_IP_LIBS \
   -L tsmc65_lib \

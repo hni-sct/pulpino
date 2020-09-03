@@ -53,13 +53,16 @@ vlog -quiet -sv -work ${LIB_NAME} +incdir+${TB_PATH} +incdir+${RTL_PATH}/include
 vlog -quiet -sv -work ${LIB_NAME} +incdir+${TB_PATH} +incdir+${RTL_PATH}/includes/                  ${TB_PATH}/tb_wrap_ps.sv         || goto error
 vlog -quiet -sv -work ${LIB_NAME} +incdir+${TB_PATH} +incdir+${RTL_PATH}/includes/                  ${TB_PATH}/tb_wrap_pl.sv         || goto error
 vlog -quiet -sv -work ${LIB_NAME} +incdir+${TB_PATH} +incdir+${RTL_PATH}/includes/                  ${TB_PATH}/tb_spi_reg_test.sv    || goto error
+vlog -quiet -sv -work ${LIB_NAME} +incdir+${TB_PATH} +incdir+${RTL_PATH}/includes/                  ${TB_PATH}/tb_wrap_jtag.sv       || goto error
+
 
 vlog -quiet -sv -work ${LIB_NAME}     +incdir+${TB_PATH} -dpiheader ${TB_PATH}/jtag_dpi/dpiheader.h ${TB_PATH}/jtag_dpi.sv         || goto error
-vlog -quiet -64 -work ${LIB_NAME} -ccflags "-I${TB_PATH}/jtag_dpi/ -m64" -dpicpppath `which gcc`    ${TB_PATH}/jtag_dpi/jtag_dpi.c || goto error
-# 
+
+# compile jtag server into shared object to be loaded by tcl script
+gcc -I/opt/sct/eda/mentor/questa/core/10.5/questasim/include/ -shared -fPIC -Bsymbolic -o ${LIB_PATH}/jtag_dpi.so ${TB_PATH}/jtag_dpi/jtag_dpi.c
 vlog -quiet -sv -work ${LIB_NAME} +incdir+${TB_PATH} +incdir+${RTL_PATH}/includes/ -dpiheader ${TB_PATH}/mem_dpi/dpiheader.h    ${TB_PATH}/tb.sv || goto error
 vlog -quiet -64 -work ${LIB_NAME} -ccflags "-I${TB_PATH}/mem_dpi/  -m64" -dpicpppath `which gcc`    ${TB_PATH}/mem_dpi/mem_dpi.c                 || goto error
-# 
+ 
 echo "${Cyan}--> ${IP_NAME} compilation complete! ${NC}"
 exit 0
 
