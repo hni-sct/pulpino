@@ -7,6 +7,64 @@ MESSAGE(STATUS "PS_SDF= ${PS_SDF}")
 MESSAGE(STATUS "PL_NETLIST= ${PL_NETLIST}")
 MESSAGE(STATUS "PL_SDF= ${PL_SDF}")
 
+
+macro(add_custom_tb NAME)
+    set(SETENV "env VSIM_DIR=${PULP_MODELSIM_DIRECTORY} USE_ZERO_RISCY=${USE_ZERO_RISCY} RISCY_RV32F=${RISCY_RV32F} ZERO_RV32M=${ZERO_RV32M} ZERO_RV32E=${ZERO_RV32E} PS_NETLIST=${PS_NETLIST} PL_NETLIST=${PL_NETLIST} PS_SDF=${PS_SDF} PL_SDF=${PL_SDF} TB_TEST=\"\"")
+
+
+  ##############################################################################
+  # link do_files, tcl_files, work and modelsim.ini from real modelsim
+  # directory
+  ##############################################################################
+
+  add_custom_command(OUTPUT                                                            ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/modelsim.ini
+    COMMAND ${CMAKE_COMMAND} -E create_symlink ${PULP_MODELSIM_DIRECTORY}/modelsim.ini ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/modelsim.ini)
+
+  add_custom_command(OUTPUT                                                            ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/work
+    COMMAND ${CMAKE_COMMAND} -E create_symlink ${PULP_MODELSIM_DIRECTORY}/work         ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/work)
+
+  add_custom_command(OUTPUT                                                            ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/tcl_files
+    COMMAND ${CMAKE_COMMAND} -E create_symlink ${PULP_MODELSIM_DIRECTORY}/tcl_files    ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/tcl_files)
+
+  add_custom_command(OUTPUT                                                            ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/waves
+    COMMAND ${CMAKE_COMMAND} -E create_symlink ${PULP_MODELSIM_DIRECTORY}/waves        ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/waves)
+
+  add_custom_target(${NAME}.links ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/modelsim.ini
+                                              ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/work
+                                              ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/tcl_files
+                                              ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/waves)
+
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/stdout/)
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/FS/)
+
+  add_custom_target(${NAME}.vsim
+      COMMAND ${CMAKE_COMMAND} -E remove stdout/*
+      COMMAND ${CMAKE_COMMAND} -E remove FS/*
+      COMMAND tcsh -c "${SETENV} ${VSIM}  -64 -do 'source tcl_files/run_${NAME}.tcl\\;'"
+      WORKING_DIRECTORY ./${NAME}
+      DEPENDS ${NAME}.links
+      COMMENT "Running ${NAME} in ModelSim"
+      ${USES_TERMINAL})
+
+  add_custom_target(${NAME}.vsim.ps
+      COMMAND ${CMAKE_COMMAND} -E remove stdout/*
+      COMMAND ${CMAKE_COMMAND} -E remove FS/*
+      COMMAND tcsh -c "${SETENV} ${VSIM}  -64 -do 'source tcl_files/run_${NAME}_ps.tcl\\;'"
+      WORKING_DIRECTORY ./${NAME}
+      DEPENDS ${NAME}.links
+      COMMENT "Running ${NAME} in ModelSim (Post Synth)"
+      ${USES_TERMINAL})
+
+  add_custom_target(spi_reg_test.vsim.pl
+      COMMAND ${CMAKE_COMMAND} -E remove stdout/*
+      COMMAND ${CMAKE_COMMAND} -E remove FS/*
+      COMMAND tcsh -c "${SETENV} ${VSIM}  -64 -do 'source tcl_files/run_${NAME}_pl.tcl\\;'"
+      WORKING_DIRECTORY ./${NAME}
+      DEPENDS ${NAME}.links
+      COMMENT "Running ${NAME} in ModelSim (Post Layout)"
+      ${USES_TERMINAL})
+endmacro()
+
 macro(add_sim_targets NAME)
   set(SETENV "env VSIM_DIR=${PULP_MODELSIM_DIRECTORY} USE_ZERO_RISCY=${USE_ZERO_RISCY} RISCY_RV32F=${RISCY_RV32F} ZERO_RV32M=${ZERO_RV32M} ZERO_RV32E=${ZERO_RV32E} PS_NETLIST=${PS_NETLIST} PL_NETLIST=${PL_NETLIST} PS_SDF=${PS_SDF} PL_SDF=${PL_SDF} TB_TEST=\"$<TARGET_PROPERTY:${NAME}.elf,TB_TEST>\"")
 

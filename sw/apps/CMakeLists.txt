@@ -192,6 +192,8 @@ endmacro()
 
 ################################################################################
 
+add_custom_tb(spi_reg_test)
+
 add_subdirectory(helloworld)
 
 if(${ARDUINO_LIB})

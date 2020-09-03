@@ -292,6 +292,48 @@
     end
   endtask
 
+  task spi_read_reg;
+    input          use_qspi;
+    input    [7:0] command;
+    output   [31:0] data;
+    begin
+      padmode_spi_master = use_qspi ? `SPI_QUAD_TX : `SPI_STD;
+      spi_csn  = 1'b0;
+      #100;
+      if (use_qspi)
+      begin
+        for (int i = 2; i > 0; i--)
+        begin
+          spi_sdo3 = command[4*i-1];
+          spi_sdo2 = command[4*i-2];
+          spi_sdo1 = command[4*i-3];
+          spi_sdo0 = command[4*i-4];
+          #`SPI_SEMIPERIOD spi_sck = 1;
+          #`SPI_SEMIPERIOD spi_sck = 0;
+        end
+      end
+      else
+      begin
+        for (int i = 7; i >= 0; i--)
+        begin
+          spi_sdo0 = command[i];
+          #`SPI_SEMIPERIOD spi_sck = 1;
+          #`SPI_SEMIPERIOD spi_sck = 0;
+        end
+      end
+
+       for (int i = 31; i >= 0; i--)
+          begin
+            #`SPI_SEMIPERIOD spi_sck = 1;
+            data[i] = spi_sdi0;
+            #`SPI_SEMIPERIOD spi_sck = 0;
+          end
+      #100 spi_csn  = 1'b1;
+      #`DELAY_BETWEEN_SPI;
+    end
+  endtask
+
+
   task spi_write_word;
     input          use_qspi;
     input   [31:0] addr;
